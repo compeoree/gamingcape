@@ -4,7 +4,7 @@ Type=idle
 
 [Service]
 Type=oneshot
-ExecStart=/home/root/init_gamingcape.sh
+ExecStart=/root/init_gamingcape.sh
 
 [Install]
 WantedBy=multi-user.target 
