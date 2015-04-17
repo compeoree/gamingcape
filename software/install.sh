@@ -1,7 +1,7 @@
 echo "Compiling dts"
-dtc -O dtb -o BEAGLEBOY-00A0.dtbo -b 0 -@ BEAGLEBOY-00A0.dts
+dtc -O dtb -o BEAGLEBOY-0013.dtbo -b 0 -@ BEAGLEBOY-0013.dts
 echo "Installing dts"
-cp BEAGLEBOY-00A0.dtbo /lib/firmware/
+cp BEAGLEBOY-0013.dtbo /lib/firmware/
 echo "Installing systemd service"
 cp gamingcape.service /etc/systemd/system/
 echo "Enabling systemd service"
