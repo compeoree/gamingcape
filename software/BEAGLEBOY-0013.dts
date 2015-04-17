@@ -13,7 +13,7 @@
 
 	/* identification */
 	part-number = "BEAGLEBOY";
-	version = "00A0";
+	version = "0013";
 
 	/* state the resources this cape uses */
 	exclusive-use =
