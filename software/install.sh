@@ -32,7 +32,7 @@ cp xinitrc .xinitrc
 echo "Disabling git sslVerify"
 git config --global http.sslVerify false
 echo "Symlinking AIN0 and AIN2"
-config-pin overlay BB-ADC
+config-pin overlay BEAGLEBOY
 mkdir -p /home/root
 cd /home/root
 ln -s `ls /sys/devices/ocp.*/helper.*/AIN0` AIN0
