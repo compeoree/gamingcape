@@ -27,8 +27,10 @@ mkdir -p /home/root
 cd /home/root
 rm -f AIN0
 rm -f AIN2
-ln -s `ls /sys/devices/ocp.*/helper.*/AIN0` AIN0
-ln -s `ls /sys/devices/ocp.*/helper.*/AIN2` AIN2
+#ln -s `ls /sys/devices/ocp.*/helper.*/AIN0` AIN0
+#ln -s `ls /sys/devices/ocp.*/helper.*/AIN2` AIN2
+ln -s /sys/bus/iio/devices/iio\:device0/in_voltage0_raw AIN0
+ln -s /sys/bus/iio/devices/iio\:device0/in_voltage2_raw AIN0
 
 
 #echo "Updating opkg"
