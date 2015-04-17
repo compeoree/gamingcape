@@ -20,4 +20,4 @@ amixer set 'Left PGA Mixer Line1R' mute
 amixer set 'Right HP Mixer DACL1' mute
 amixer set 'Right PGA Mixer Line1L' mute
 amixer set 'PGA' 0%
-#fceux --sound 1  --fullscreen 1 --xres 320 --yres 240 /root/ROMS/ROM.nes |tee /root/log.file
+fceux --sound 1  --fullscreen 1 --xres 320 --yres 240 /usr/share/gamingcape/ROMS/ROM.nes
