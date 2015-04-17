@@ -38,6 +38,10 @@ cd /home/root
 ln -s `ls /sys/devices/ocp.*/helper.*/AIN0` AIN0
 ln -s `ls /sys/devices/ocp.*/helper.*/AIN2` AIN2
 
+echo "Installing scripts"
+mkdir -p /usr/share/gamingcape
+install -m 755 init_gamingcape.sh /usr/share/gamingcape/
+
 #echo "Updating opkg"
 #opkg update
 #echo "Installing python-distutils"
