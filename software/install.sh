@@ -43,7 +43,21 @@ ln -s `ls /sys/devices/ocp.*/helper.*/AIN2` AIN2
 # cd scons-2.3.0
 # python setup.py install
 
-# cd
-# git clone "https://github.com/bear24rw/gamingcape_fceu.git"
-# cd gamingcape_fceu
-# scons
+echo "Installing scons"
+apt-get update
+apt-get install -y scons
+
+echo "Cloning/updating fceu"
+cd
+if [ -d "$DIRECTORY" ]; then
+  cd gamingcape_fceu
+  git pull
+else
+  git clone "https://github.com/bear24rw/gamingcape_fceu.git"
+  cd gamingcape_fceu
+fi
+
+echo "Building fceu"
+scons
+echo "Installing fceu"
+./install.sh
