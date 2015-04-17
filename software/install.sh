@@ -18,6 +18,8 @@ echo "Symlinking AIN0 and AIN2"
 config-pin overlay BB-ADC
 mkdir -p /home/root
 cd /home/root
+rm -f AIN0
+rm -f AIN2
 ln -s `ls /sys/devices/ocp.*/helper.*/AIN0` AIN0
 ln -s `ls /sys/devices/ocp.*/helper.*/AIN2` AIN2
 
