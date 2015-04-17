@@ -13,6 +13,10 @@ echo "Enabling autologin"
 cp getty@tty1.service /etc/systemd/system/getty.target.wants/
 #echo "Disabling git sslVerify"
 #git config --global http.sslVerify false
+echo "Installing scripts"
+mkdir -p /usr/share/gamingcape
+install -m 755 init_gamingcape.sh /usr/share/gamingcape/
+
 echo "Symlinking AIN0 and AIN2"
 #config-pin overlay BEAGLEBOY
 config-pin overlay BB-ADC
@@ -23,9 +27,6 @@ rm -f AIN2
 ln -s `ls /sys/devices/ocp.*/helper.*/AIN0` AIN0
 ln -s `ls /sys/devices/ocp.*/helper.*/AIN2` AIN2
 
-echo "Installing scripts"
-mkdir -p /usr/share/gamingcape
-install -m 755 init_gamingcape.sh /usr/share/gamingcape/
 
 #echo "Updating opkg"
 #opkg update
