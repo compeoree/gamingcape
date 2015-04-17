@@ -3,8 +3,7 @@ dtc -O dtb -o BEAGLEBOY-0013.dtbo -b 0 -@ BEAGLEBOY-0013.dts
 echo "Installing dts"
 cp BEAGLEBOY-0013.dtbo /lib/firmware/
 echo "Rebuilding initrd with dts"
-curl https://raw.githubusercontent.com/beagleboard/image-builder/master/target/other/dtbo > /usr/share/initramfs-tools/hooks/dtbo
-chmod 755 /usr/share/initramfs-tools/hooks/dtbo
+install -m 755 dtbo /usr/share/initramfs-tools/hooks/
 /opt/scripts/tools/developers/update_initrd.sh
 echo "Installing systemd service"
 cp gamingcape.service /etc/systemd/system/
