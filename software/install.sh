@@ -51,7 +51,7 @@ apt-get install -y scons
 
 echo "Cloning/updating fceu"
 cd
-if [ -d "$DIRECTORY" ]; then
+if [ -d gamingcape_fceu ]; then
   cd gamingcape_fceu
   git pull
 else
