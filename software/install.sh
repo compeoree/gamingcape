@@ -14,7 +14,8 @@ cp getty@tty1.service /etc/systemd/system/getty.target.wants/
 #echo "Disabling git sslVerify"
 #git config --global http.sslVerify false
 echo "Symlinking AIN0 and AIN2"
-config-pin overlay BEAGLEBOY
+#config-pin overlay BEAGLEBOY
+config-pin overlay BB-ADC
 mkdir -p /home/root
 cd /home/root
 ln -s `ls /sys/devices/ocp.*/helper.*/AIN0` AIN0
