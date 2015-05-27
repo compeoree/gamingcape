@@ -1,6 +1,7 @@
 #!/bin/sh
-xset s off
-xset s noblank
+export DISPLAY=:0.0
+sudo -u debian xset s off
+sudo -u debian xset s noblank
 #config-pin overlay BEAGLEBOY
 sleep 2
 echo 61 > /sys/class/gpio/export
@@ -20,4 +21,4 @@ amixer set 'Left PGA Mixer Line1R' mute
 amixer set 'Right HP Mixer DACL1' mute
 amixer set 'Right PGA Mixer Line1L' mute
 amixer set 'PGA' 0%
-fceux --sound 1  --fullscreen 1 --xres 320 --yres 240 /usr/share/gamingcape/ROMS/ROM.nes
+sudo -u debian fceux --sound 1  --fullscreen 1 --xres 320 --yres 240 /usr/share/gamingcape/ROMS/ROM.nes
