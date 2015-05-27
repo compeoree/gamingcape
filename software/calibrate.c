@@ -76,7 +76,7 @@ void get_data() {
 void cal() {
 
 	FILE *file;
-	file = fopen("cal.txt", "w");
+	file = fopen("/home/root/cal.txt", "w");
 	if (!file) printf("Failed to open cal.txt\n");
 
 	get_data();
@@ -118,7 +118,7 @@ void cal() {
 
 void load_cal() {
 	FILE *file;
-	file = fopen("cal.txt", "r");
+	file = fopen("/home/root/cal.txt", "r");
 	if (!file) printf("Failed to open cal.txt\n");
 	fscanf(file, "%i,%i,%i,%i,%i,%i", &min_x, &center_x, &max_x, &min_y, &center_y, &max_y);
 	fclose(file);
