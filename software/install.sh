@@ -30,7 +30,7 @@ rm -f AIN2
 #ln -s `ls /sys/devices/ocp.*/helper.*/AIN0` AIN0
 #ln -s `ls /sys/devices/ocp.*/helper.*/AIN2` AIN2
 ln -s /sys/bus/iio/devices/iio\:device0/in_voltage0_raw AIN0
-ln -s /sys/bus/iio/devices/iio\:device0/in_voltage2_raw AIN0
+ln -s /sys/bus/iio/devices/iio\:device0/in_voltage2_raw AIN2
 
 
 #echo "Updating opkg"
