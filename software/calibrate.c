@@ -76,7 +76,7 @@ void get_data() {
 void cal() {
 
 	FILE *file;
-	file = fopen("/home/root/cal.txt", "w");
+	file = fopen("/usr/share/gamingcape/cal.txt", "w");
 	if (!file) printf("Failed to open cal.txt\n");
 
 	get_data();
@@ -118,17 +118,17 @@ void cal() {
 
 void load_cal() {
 	FILE *file;
-	file = fopen("/home/root/cal.txt", "r");
+	file = fopen("/usr/share/gamingcape/cal.txt", "r");
 	if (!file) printf("Failed to open cal.txt\n");
 	fscanf(file, "%i,%i,%i,%i,%i,%i", &min_x, &center_x, &max_x, &min_y, &center_y, &max_y);
 	fclose(file);
 }
 
 int main() {
-	fd_x = open("/home/root/AIN0", O_RDONLY);
-	fd_y = open("/home/root/AIN2", O_RDONLY);
-	fd_a = open("/sys/class/gpio/gpio61/value", O_RDONLY);
-	fd_b = open("/sys/class/gpio/gpio49/value", O_RDONLY);
+	fd_x = open("/usr/share/gamingcape/AIN0", O_RDONLY);
+	fd_y = open("/usr/share/gamingcape/AIN2", O_RDONLY);
+	fd_a = open("/usr/share/gamingcape/BUTTON_A", O_RDONLY);
+	fd_b = open("/usr/share/gamingcape/BUTTON_B", O_RDONLY);
 
 	cal();
 	//load_cal();

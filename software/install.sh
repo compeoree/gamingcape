@@ -20,17 +20,19 @@ echo "Installing scripts"
 mkdir -p /usr/share/gamingcape
 install -m 755 init_gamingcape.sh /usr/share/gamingcape/
 
-echo "Symlinking AIN0 and AIN2"
+echo "Symlinking AIN0, AIN2, BUTTON_A and BUTTON_B"
 #config-pin overlay BEAGLEBOY
 config-pin overlay BB-ADC
-mkdir -p /home/root
-cd /home/root
+mkdir -p /usr/share/gamingcape
+cd /usr/share/gamingcape
 rm -f AIN0
 rm -f AIN2
-#ln -s `ls /sys/devices/ocp.*/helper.*/AIN0` AIN0
-#ln -s `ls /sys/devices/ocp.*/helper.*/AIN2` AIN2
+rm -f BUTTON_A
+rm -f BUTTON_B
 ln -s /sys/bus/iio/devices/iio\:device0/in_voltage0_raw AIN0
 ln -s /sys/bus/iio/devices/iio\:device0/in_voltage2_raw AIN2
+ln -s /sys/class/gpio/gpio49/value BUTTON_A
+ln -s /sys/class/gpio/gpio61/value BUTTON_B
 
 
 #echo "Updating opkg"
@@ -55,7 +57,7 @@ if [ -d gamingcape_fceu ]; then
   cd gamingcape_fceu
   git pull
 else
-  git clone "https://github.com/bear24rw/gamingcape_fceu.git"
+  git clone "https://github.com/jadonk/gamingcape_fceu.git"
   cd gamingcape_fceu
 fi
 
