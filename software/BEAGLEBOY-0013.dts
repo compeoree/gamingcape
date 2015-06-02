@@ -221,6 +221,20 @@
 				reg = <0x1b>;
 				status = "okay";
 			};
+
+			lsm303dlhc_acc: lsm303dlhc_acc@0x19 {
+				compatible = "lsm303dlhc_acc";
+				reg = <0x19>;
+				status = "okay";
+			};
+
+/*
+			lsm303dlhc_mag: lsm303dlhc_mag@0x19 {
+				compatible = "lsm303dlhc_mag";
+				reg = <0x1e>;
+				status = "okay";
+			};
+*/
 		};
 	};
 	fragment@5 {
