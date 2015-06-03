@@ -4,10 +4,10 @@ sudo -u debian xset s off
 sudo -u debian xset s noblank
 #config-pin overlay BEAGLEBOY
 sleep 2
-echo 61 > /sys/class/gpio/export
-echo 49 > /sys/class/gpio/export
-echo in > /sys/class/gpio/gpio49/direction
-echo in > /sys/class/gpio/gpio61/direction
+#echo 61 > /sys/class/gpio/export
+#echo 49 > /sys/class/gpio/export
+#echo in > /sys/class/gpio/gpio49/direction
+#echo in > /sys/class/gpio/gpio61/direction
 amixer set PCM 100%
 amixer set HP unmute
 amixer set 'HP DAC' 100%
