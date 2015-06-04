@@ -25,6 +25,11 @@
 
 #define VERSION	"0.1"
 
+#define MAX_VAL 4095
+int centerCaptured = 0;
+int centerX = MAX_VAL/2;
+int centerY = MAX_VAL/2;
+
 void usage(char *n)
 {
 	fprintf(stderr, "Version "VERSION
@@ -74,6 +79,26 @@ void runJS(char *adcX, char *adcY, int fd)
 		y = getADC(adcY);
 		if (x < 0 && y < 0) 
 			continue;
+
+		if (!centerCaptured) {
+			centerX = x;
+			centerY = y;
+			centerCaptured = 1;
+		}
+
+		/* Apply center adjustment function */
+		if(x < centerX) {
+			x = x * MAX_VAL/(2*centerX);
+		} else {
+			x = ((x - centerX) * MAX_VAL/(2*(MAX_VAL-centerX)))
+				+ MAX_VAL/2;
+		}
+		if(y < centerY) {
+			y = y * MAX_VAL/(2*centerY);
+		} else {
+			y = ((y - centerY) * MAX_VAL/(2*(MAX_VAL-centerY)))
+				+ MAX_VAL/2;
+		}
 
 		/* Report */
 		ev.type = EV_ABS;
@@ -152,9 +177,9 @@ int main(int argc, char **argv)
 	uindev.id.product = 0;
 	uindev.id.version = 1;
 	uindev.absmin[ABS_X] = 0;
-	uindev.absmax[ABS_X] = 1023;
+	uindev.absmax[ABS_X] = MAX_VAL;
 	uindev.absmin[ABS_Y] = 0;
-	uindev.absmax[ABS_Y] = 1023;
+	uindev.absmax[ABS_Y] = MAX_VAL;
 
 	ret = write(fd, &uindev, sizeof(uindev));
 	if (ret < 0) {
