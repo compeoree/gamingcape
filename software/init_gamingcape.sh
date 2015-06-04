@@ -3,7 +3,10 @@ export DISPLAY=:0.0
 sudo -u debian xset s off
 sudo -u debian xset s noblank
 #config-pin overlay BEAGLEBOY
-sleep 2
+#sleep 2
+killall adcjs
+killall -9 adcjs
+adcjs /sys/bus/iio/devices/iio:device0/in_voltage0_raw /sys/bus/iio/devices/iio:device0/in_voltage2_raw &
 #echo 61 > /sys/class/gpio/export
 #echo 49 > /sys/class/gpio/export
 #echo in > /sys/class/gpio/gpio49/direction

@@ -5,11 +5,15 @@
 #echo "Rebuilding initrd with dts"
 #install -m 755 dtbo /usr/share/initramfs-tools/hooks/
 #/opt/scripts/tools/developers/update_initrd.sh
+
 echo "Downloading and installing latest kernel and device tree"
 wget http://builds.beagleboard.org/linux/3.8.13-bone71-lsm303/81e3a418466a53b3c9649cafc5b555e361a9846d/linux-image-3.8.13-git81e3a418466a53b3c9649cafc5b555e361a9846d_1cross_armhf.deb
 wget http://builds.beagleboard.org/linux/3.8.13-bone71-lsm303/81e3a418466a53b3c9649cafc5b555e361a9846d/linux-firmware-image-3.8.13-git81e3a418466a53b3c9649cafc5b555e361a9846d_1cross_armhf.deb
 dpkg -i linux-image-3.8.13-git81e3a418466a53b3c9649cafc5b555e361a9846d_1cross_armhf.deb
 dpkg -i linux-firmware-image-3.8.13-git81e3a418466a53b3c9649cafc5b555e361a9846d_1cross_armhf.deb
+
+gcc -o /usr/local/bin/adcjs adcjs.c
+
 echo "Installing systemd service"
 cp gamingcape.service /etc/systemd/system/
 echo "Enabling systemd service"
