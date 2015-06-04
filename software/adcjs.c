@@ -84,21 +84,27 @@ void runJS(char *adcX, char *adcY, int fd)
 			centerX = x;
 			centerY = y;
 			centerCaptured = 1;
+			fprintf(stderr, "Center at %d,%d\n", x, y);
 		}
 
 		/* Apply center adjustment function */
-		if(x < centerX) {
+		if (centerX <= MAX_VAL/2) {
 			x = x * MAX_VAL/(2*centerX);
+			if (x > MAX_VAL) x = MAX_VAL;
 		} else {
 			x = ((x - centerX) * MAX_VAL/(2*(MAX_VAL-centerX)))
 				+ MAX_VAL/2;
+			if (x < 0) x = 0;
 		}
-		if(y < centerY) {
+		if (centerY <= MAX_VAL/2) {
 			y = y * MAX_VAL/(2*centerY);
+			if (y > MAX_VAL) y = MAX_VAL;
 		} else {
 			y = ((y - centerY) * MAX_VAL/(2*(MAX_VAL-centerY)))
 				+ MAX_VAL/2;
+			if (y < 0) y = 0;
 		}
+
 
 		/* Report */
 		ev.type = EV_ABS;
