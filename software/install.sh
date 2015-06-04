@@ -12,7 +12,11 @@ wget http://builds.beagleboard.org/linux/3.8.13-bone71-lsm303/81e3a418466a53b3c9
 dpkg -i linux-image-3.8.13-git81e3a418466a53b3c9649cafc5b555e361a9846d_1cross_armhf.deb
 dpkg -i linux-firmware-image-3.8.13-git81e3a418466a53b3c9649cafc5b555e361a9846d_1cross_armhf.deb
 
+echo "Installing uinput service"
 gcc -o /usr/local/bin/adcjs adcjs.c
+
+echo "Installing X11 input driver configuration"
+install -m 644 99-gamingcape.conf /usr/share/initramfs-tools/hooks/
 
 echo "Installing systemd service"
 cp gamingcape.service /etc/systemd/system/
