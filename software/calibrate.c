@@ -5,10 +5,10 @@
 #include <string.h>
 #include <unistd.h>
 #include <math.h>
+#include <linux/input.h>
 
 int fd_x = -1;
 int fd_y = -1;
-int fd_a = -1;
 int fd_b = -1;
 
 int a = 0;
@@ -16,6 +16,8 @@ int b = 0;
 
 int raw_joy_x = -1;
 int raw_joy_y = -1;
+
+struct input_event buttons;
 
 // compensated values
 int joy_x = -1;
@@ -30,33 +32,22 @@ int center_x = 512, center_y = 512;
 void get_data() {
 	char buf_x[100];
 	char buf_y[100];
-	char buf_a[100];
-	char buf_b[100];
 
 	memset(buf_x, 0, 100);
 	memset(buf_y, 0, 100);
-	memset(buf_a, 0, 100);
-	memset(buf_b, 0, 100);
 
 	int ret_x = read(fd_x, buf_x, sizeof(buf_x));
 	int ret_y = read(fd_y, buf_y, sizeof(buf_y));
-	int ret_a = read(fd_a, buf_a, sizeof(buf_a));
-	int ret_b = read(fd_b, buf_b, sizeof(buf_b));
+	int ret_b = read(fd_b, &buttons, sizeof(buttons));
 
 	if ((ret_x != -1) &&
-	    (ret_y != -1) &&
-	    (ret_a != -1) &&
-	    (ret_b != -1)) {
+	    (ret_y != -1)) {
 
 		buf_x[ret_x-1] = '\0';
 		buf_y[ret_y-1] = '\0';
-		buf_a[ret_a-1] = '\0';
-		buf_b[ret_b-1] = '\0';
 
 		raw_joy_x = atoi(buf_x);
 		raw_joy_y = atoi(buf_y);
-		a = !atoi(buf_a);
-		b = !atoi(buf_b);
 
 		// compensate using calibration data
 		joy_x = (raw_joy_x - center_x) * 1000;
@@ -68,8 +59,22 @@ void get_data() {
 
 		lseek(fd_x,0,0);
 		lseek(fd_y,0,0);
-		lseek(fd_a,0,0);
-		lseek(fd_b,0,0);
+
+		// update button status globals
+		if ((ret_b > 0) &&
+		    (buttons.code == BTN_LEFT) &&
+		    (buttons.value == 1)) {
+			a = 1;
+		} else {
+			a = 0;
+		}
+		if ((ret_b > 0) &&
+		    (buttons.code == BTN_RIGHT) &&
+		    (buttons.value == 1)) {
+			b = 1;
+		} else {
+			b = 0;
+		}
 	}
 
 }
@@ -127,20 +132,21 @@ void load_cal() {
 int main() {
 	fd_x = open("/usr/share/gamingcape/AIN0", O_RDONLY);
 	fd_y = open("/usr/share/gamingcape/AIN2", O_RDONLY);
-	fd_a = open("/usr/share/gamingcape/BUTTON_A", O_RDONLY);
-	fd_b = open("/usr/share/gamingcape/BUTTON_B", O_RDONLY);
+	fd_b = open("/usr/share/gamingcape/BUTTONS", O_RDONLY);
+	int flags = fcntl(fd_b, F_GETFL, 0);
+	fcntl(fd_b, F_SETFL, flags | O_NONBLOCK);
 
 	cal();
 	//load_cal();
 
-	while (1) {
+	printf("Press B to close..\n");
+	while (!b) {
 		get_data();
 		printf("%6d %6d %6d %6d\n", joy_x, joy_y, a, b);
 	}
 
 	close(fd_x);
 	close(fd_y);
-	close(fd_a);
 	close(fd_b);
 
 	return 0;

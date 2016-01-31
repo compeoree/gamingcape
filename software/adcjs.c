@@ -26,6 +26,10 @@
 #define VERSION	"0.1"
 
 #define MAX_VAL 4095
+int minX = 0;
+int maxX = MAX_VAL;
+int minY = 0;
+int maxY = MAX_VAL;
 int centerCaptured = 0;
 int centerX = MAX_VAL/2;
 int centerY = MAX_VAL/2;
@@ -88,23 +92,28 @@ void runJS(char *adcX, char *adcY, int fd)
 		}
 
 		/* Apply center adjustment function */
-		if (centerX <= MAX_VAL/2) {
-			x = x * MAX_VAL/(2*centerX);
-			if (x > MAX_VAL) x = MAX_VAL;
-		} else {
-			x = ((x - centerX) * MAX_VAL/(2*(MAX_VAL-centerX)))
-				+ MAX_VAL/2;
+		if (x <= centerX) {
+			x = x - minX;
 			if (x < 0) x = 0;
-		}
-		if (centerY <= MAX_VAL/2) {
-			y = y * MAX_VAL/(2*centerY);
-			if (y > MAX_VAL) y = MAX_VAL;
+			x = ( x * (MAX_VAL/2) ) / ( centerX - minX );
+			if (x > MAX_VAL/2) x = MAX_VAL/2;
 		} else {
-			y = ((y - centerY) * MAX_VAL/(2*(MAX_VAL-centerY)))
-				+ MAX_VAL/2;
-			if (y < 0) y = 0;
+			x = x - centerX;
+			x = ( ( x * (MAX_VAL/2) ) / ( maxX - centerX ) ) + MAX_VAL/2;
+			if (x < MAX_VAL/2) x = MAX_VAL/2;
+			if (x > MAX_VAL) x = MAX_VAL;
 		}
-
+		if (y <= centerY) {
+			y = y - minY;
+			if (y < 0) y = 0;
+			y = ( y * (MAX_VAL/2) ) / ( centerY - minY );
+			if (y > MAX_VAL/2) y = MAX_VAL/2;
+		} else {
+			y = y - centerY;
+			y = ( ( y * (MAX_VAL/2) ) / ( maxY - centerY ) ) + MAX_VAL/2;
+			if (y < MAX_VAL/2) y = MAX_VAL/2;
+			if (y > MAX_VAL) y = MAX_VAL;
+		}
 
 		/* Report */
 		ev.type = EV_ABS;
@@ -137,6 +146,7 @@ int main(int argc, char **argv)
 	int fd;
 	struct uinput_user_dev uindev;
 	int ret;
+	FILE *cal_file;
 
 	if  (argc < 3) {
 		usage(argv[0]);
@@ -158,6 +168,18 @@ int main(int argc, char **argv)
 		exit(2);
 	}
 	close(fd);
+
+	/* Fetch calibration data */
+	cal_file = fopen("/usr/share/gamingcape/cal.txt", "r");
+	if (!cal_file) {
+		fprintf(stderr, "Failed to open cal.txt\n");
+	} else {
+		fscanf(cal_file, "%i,%i,%i,%i,%i,%i", &minX, &centerX, &maxX, &minY, &centerY, &maxY);
+		fclose(cal_file);
+		centerCaptured = 1;
+		fprintf(stderr, "Read cal.txt\n");
+		fprintf(stderr, "Center at %d,%d\n", centerX, centerY);
+	}
 
 	/* Work around userland stupidity. Try 2 common
 	 * locations.
