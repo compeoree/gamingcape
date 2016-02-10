@@ -16,7 +16,8 @@ echo "Installing uinput service"
 gcc -o /usr/local/bin/adcjs adcjs.c
 
 echo "Installing X11 input driver configuration"
-install -m 644 99-gamingcape.conf /usr/share/initramfs-tools/hooks/
+apt-get install xserver-xorg-input-joystick
+install -m 644 99-gamingcape.conf /etc/X11/xorg.conf.d/
 
 echo "Installing systemd service"
 cp gamingcape.service /etc/systemd/system/
