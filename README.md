@@ -38,7 +38,11 @@ The output should look similar to this:
 *
 00008000
 ```
-If so, reboot to enjoy your LCD in all its glory.
+5) Edit /boot/uEnv.txt to disable HDMI: uncomment the line that contains 'dtb=am335x-boneblack-emmc-overlay.dtb'
+
+**NOTE: Without Step 5, the LCD will only show a blinking cursor and X-Windows will not start.**
+
+Reboot to enjoy your LCD in all its glory.
 
 
 Original Documentation
